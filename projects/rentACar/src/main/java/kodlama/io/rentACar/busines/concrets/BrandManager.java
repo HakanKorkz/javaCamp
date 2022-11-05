@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BrandManager implements BrandService {
@@ -20,12 +21,14 @@ public class BrandManager implements BrandService {
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
-        List<Brand> brands = brandRepository.findAll();
-        List<GetAllBrandsResponse> responses=new ArrayList<>();
-        for (Brand brand:brands) {
-            responses.add(new GetAllBrandsResponse(brand.getId(),brand.getName()));
-        }
-        return responses;
+        return brandRepository.findAll().stream().map(brand -> new GetAllBrandsResponse(brand.getId(), brand.getName())).collect(Collectors.toList());
+
+//        List<Brand> brands = brandRepository.findAll();
+//        List<GetAllBrandsResponse> responses=new ArrayList<>();
+//        for (Brand brand:brands) {
+//            responses.add(new GetAllBrandsResponse(brand.getId(),brand.getName()));
+//        }
+//        return responses;
     }
 
     @Override
