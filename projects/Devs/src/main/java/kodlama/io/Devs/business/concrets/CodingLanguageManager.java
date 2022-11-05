@@ -31,6 +31,25 @@ public class CodingLanguageManager implements CodingLanguageService {
 
     @Override
     public void add(CodingLanguage codingLanguage) throws Exception {
+
+        isValid(codingLanguage);
+
+        codingLanguageRepository.add(codingLanguage);
+    }
+
+    @Override
+    public void update(CodingLanguage codingLanguage, int id) throws Exception {
+        isValid(codingLanguage);
+        codingLanguageRepository.update(codingLanguage, id);
+    }
+
+    @Override
+    public void delete(int id) {
+        codingLanguageRepository.delete(id);
+
+    }
+
+    private void isValid(CodingLanguage codingLanguage) throws Exception{
         for (CodingLanguage codingLanguage1 : codingLanguageRepository.getAll()) {
             if (codingLanguage1.getCodeName().equals("") || codingLanguage1.getCodeName() == null) {
                 throw new Exception("Boş geçilemez");
@@ -38,28 +57,5 @@ public class CodingLanguageManager implements CodingLanguageService {
                 throw new Exception(codingLanguage.getCodeName() + " Bu isim de zaten bir kayıt vardır");
             }
         }
-        codingLanguageRepository.add(codingLanguage);
-    }
-
-    @Override
-    public void update(CodingLanguage codingLanguage, int id) throws Exception {
-        codingLanguages = codingLanguageRepository.getAll();
-        for (CodingLanguage codingLanguage1 : codingLanguages) {
-            if (codingLanguage1.getId() == id) {
-                if (codingLanguage1.getCodeName().equals(codingLanguage.getCodeName())) {
-                    throw new Exception(codingLanguage.getCodeName() + " Bu isim de zaten bir kayıt vardır");
-                }
-                if (codingLanguage1.getCodeName().equals("") || codingLanguage1.getCodeName() == null) {
-                    throw new Exception("Boş geçilemez");
-                }
-                codingLanguageRepository.update(codingLanguage, id);
-            }
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        codingLanguageRepository.delete(id);
-
     }
 }
