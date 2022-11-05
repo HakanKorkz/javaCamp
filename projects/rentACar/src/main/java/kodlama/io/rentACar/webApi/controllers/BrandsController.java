@@ -1,6 +1,6 @@
 package kodlama.io.rentACar.webApi.controllers;
 
-import kodlama.io.rentACar.busines.abstracts.BrandServices;
+import kodlama.io.rentACar.busines.abstracts.BrandService;
 import kodlama.io.rentACar.busines.requests.CreateBrandRequest;
 import kodlama.io.rentACar.busines.responses.GetAllBrandsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/brands")
 public class BrandsController {
-    private  BrandServices brandServices;
+    private BrandService brandServices;
     @Autowired
-    public BrandsController(BrandServices brandServices) {
+    public BrandsController(BrandService brandServices) {
         this.brandServices = brandServices;
     }
 
