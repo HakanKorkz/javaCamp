@@ -1,14 +1,18 @@
 package kodlama.io.Devs.business.abstracts;
 
-import kodlama.io.Devs.entities.concretes.CodingLanguage;
+import kodlama.io.Devs.business.requests.CreateCodingLanguageRequest;
+import kodlama.io.Devs.business.responses.GetAllCodingsLanguageRequest;
 
 import java.util.List;
 
 public interface CodingLanguageService {
-    List<CodingLanguage> getAll();
-    CodingLanguage getById(int id);
-    void add(CodingLanguage codingLanguage) throws Exception;
-    void update(CodingLanguage codingLanguage , int id) throws Exception;
+    List<GetAllCodingsLanguageRequest> getAll();
+
+    void add(CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception;
+
+    void update(CreateCodingLanguageRequest createCodingLanguageRequest, int id) throws Exception;
+
     void delete(int id);
+
 
 }

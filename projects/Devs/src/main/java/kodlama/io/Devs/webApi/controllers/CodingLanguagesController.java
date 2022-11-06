@@ -1,7 +1,8 @@
 package kodlama.io.Devs.webApi.controllers;
 
 import kodlama.io.Devs.business.abstracts.CodingLanguageService;
-import kodlama.io.Devs.entities.concretes.CodingLanguage;
+import kodlama.io.Devs.business.requests.CreateCodingLanguageRequest;
+import kodlama.io.Devs.business.responses.GetAllCodingsLanguageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,22 +19,24 @@ public class CodingLanguagesController {
     }
 
     @RequestMapping("/getall")
-    public List<CodingLanguage> getAll() {
+    public List<GetAllCodingsLanguageRequest> getAll() {
         return codingLanguageService.getAll();
     }
 
     @PostMapping("/add")
-    public void add(@RequestBody CodingLanguage codingLanguage) throws Exception {
-        codingLanguageService.add(codingLanguage);
+    public void add(@RequestBody CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception {
+        this.codingLanguageService.add(createCodingLanguageRequest);
+
     }
 
     @PostMapping("/update")
-    public void update(@RequestBody CodingLanguage codingLanguage,int id) throws Exception {
-        codingLanguageService.update(codingLanguage,id);
+    public void update(@RequestBody CreateCodingLanguageRequest createCodingLanguageRequest,int id) throws Exception {
+        codingLanguageService.update(createCodingLanguageRequest,id);
     }
 
     @PostMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
         codingLanguageService.delete(id);
     }
+
 }

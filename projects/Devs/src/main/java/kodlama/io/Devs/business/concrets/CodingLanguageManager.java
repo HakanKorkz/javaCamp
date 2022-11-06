@@ -2,59 +2,61 @@ package kodlama.io.Devs.business.concrets;
 
 
 import kodlama.io.Devs.business.abstracts.CodingLanguageService;
+import kodlama.io.Devs.business.requests.CreateCodingLanguageRequest;
+import kodlama.io.Devs.business.responses.GetAllCodingsLanguageRequest;
 import kodlama.io.Devs.dataAccess.abstracts.CodingLanguageRepository;
 import kodlama.io.Devs.entities.concretes.CodingLanguage;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CodingLanguageManager implements CodingLanguageService {
     private CodingLanguageRepository codingLanguageRepository;
-    List<CodingLanguage> codingLanguages;
 
     public CodingLanguageManager(CodingLanguageRepository codingLanguageRepository) {
         this.codingLanguageRepository = codingLanguageRepository;
-        codingLanguages = new ArrayList<>();
     }
 
     @Override
-    public List<CodingLanguage> getAll() {
-        return codingLanguageRepository.getAll();
+    public List<GetAllCodingsLanguageRequest> getAll() {
+        return codingLanguageRepository.findAll().stream().map(codingLanguage -> new GetAllCodingsLanguageRequest(codingLanguage.getId(), codingLanguage.getCodeName())).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void add(CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception {
+
+        isValid(createCodingLanguageRequest);
+        CodingLanguage codingLanguage = new CodingLanguage();
+        codingLanguage.setCodeName(createCodingLanguageRequest.getCodeName());
+        this.codingLanguageRepository.save(codingLanguage);
+
     }
 
     @Override
-    public CodingLanguage getById(int id) {
-        return codingLanguageRepository.getById(id);
+    public void update(CreateCodingLanguageRequest createCodingLanguageRequest, int id) throws Exception {
+
+        isValid(createCodingLanguageRequest);
+        CodingLanguage codingLanguage = new CodingLanguage();
+        codingLanguage.setId(id);
+        codingLanguage.setCodeName(createCodingLanguageRequest.getCodeName());
+        this.codingLanguageRepository.save(codingLanguage);
     }
 
-    @Override
-    public void add(CodingLanguage codingLanguage) throws Exception {
-
-        isValid(codingLanguage);
-
-        codingLanguageRepository.add(codingLanguage);
-    }
-
-    @Override
-    public void update(CodingLanguage codingLanguage, int id) throws Exception {
-        isValid(codingLanguage);
-        codingLanguageRepository.update(codingLanguage, id);
-    }
-
-    @Override
+        @Override
     public void delete(int id) {
-        codingLanguageRepository.delete(id);
-
+        codingLanguageRepository.deleteById(id);
     }
 
-    private void isValid(CodingLanguage codingLanguage) throws Exception{
-        for (CodingLanguage codingLanguage1 : codingLanguageRepository.getAll()) {
+
+    private void isValid(CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception {
+        for (CodingLanguage codingLanguage1 : codingLanguageRepository.findAll()) {
             if (codingLanguage1.getCodeName().equals("") || codingLanguage1.getCodeName() == null) {
                 throw new Exception("Boş geçilemez");
-            } else if (codingLanguage1.getCodeName().equals(codingLanguage.getCodeName())) {
-                throw new Exception(codingLanguage.getCodeName() + " Bu isim de zaten bir kayıt vardır");
+            } else if (codingLanguage1.getCodeName().equals(createCodingLanguageRequest.getCodeName())) {
+                throw new Exception(createCodingLanguageRequest.getCodeName() + " Bu isim de zaten bir kayıt vardır");
             }
         }
     }
