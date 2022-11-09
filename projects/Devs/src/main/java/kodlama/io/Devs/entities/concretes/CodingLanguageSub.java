@@ -6,21 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Table(name = "codings")
+@Table(name = "libraries")
 @Data
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class CodingLanguage {
+public class CodingLanguageSub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "codeName")
-    private String codeName;
-    @OneToMany(mappedBy = "codingLanguage")
-    private List<CodingLanguageSub> codingLanguageSubs;
+    @Column(name = "libraName")
+    private String libraName;
+    @ManyToOne
+    @JoinColumn(name = "coding_language_id")
+    private CodingLanguage codingLanguage;
 }
