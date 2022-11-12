@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CodingLanguageManager implements CodingLanguageService {
-    private CodingLanguageRepository codingLanguageRepository;
+    private final CodingLanguageRepository codingLanguageRepository;
 
     public CodingLanguageManager(CodingLanguageRepository codingLanguageRepository) {
         this.codingLanguageRepository = codingLanguageRepository;
@@ -30,13 +30,12 @@ public class CodingLanguageManager implements CodingLanguageService {
         isIfIdCheck(id);
         identityCheck(id);
         Optional<CodingLanguage> codingLanguage = this.codingLanguageRepository.findById(id);
-        return codingLanguage.get();
+        return codingLanguage.orElseThrow(()-> new Exception("Veri bulunamadı"));
     }
 
 
     @Override
     public void add(CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception {
-
         checkNameEmptyDuplication(createCodingLanguageRequest);
         CodingLanguage codingLanguage = new CodingLanguage();
         codingLanguage.setCodeName(createCodingLanguageRequest.getCodeName());
@@ -69,7 +68,8 @@ public class CodingLanguageManager implements CodingLanguageService {
 
 
     private void checkNameEmptyDuplication(CreateCodingLanguageRequest createCodingLanguageRequest) throws Exception {
-        boolean isNameEmpty = createCodingLanguageRequest.getCodeName().isEmpty() || createCodingLanguageRequest.getCodeName() == null;
+        String name = createCodingLanguageRequest.getCodeName();
+
         boolean isNameDuplication = false;
 
         for (CodingLanguage codingLanguage1 : codingLanguageRepository.findAll()) {
@@ -79,7 +79,7 @@ public class CodingLanguageManager implements CodingLanguageService {
             }
         }
 
-        if (isNameEmpty) {
+        if (name.isBlank() || name.isEmpty()) {
             throw new Exception("Boş geçilemez");
         }
         if (isNameDuplication) {

@@ -23,4 +23,5 @@ public class CodingLanguageSub {
     @ManyToOne
     @JoinColumn(name = "coding_language_id")
     private CodingLanguage codingLanguage;
+
 }

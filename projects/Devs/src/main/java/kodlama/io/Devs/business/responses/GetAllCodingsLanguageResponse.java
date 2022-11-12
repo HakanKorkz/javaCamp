@@ -9,4 +9,5 @@ import lombok.*;
 public class GetAllCodingsLanguageResponse {
     private int id;
     private String CodeName;
+
 }
