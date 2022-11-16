@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetAllCodingLanguageSubResponse {
     private int id;
-    private int codingLanguageId;
+    private String codingLanguageName;
     private String libraName;
 }

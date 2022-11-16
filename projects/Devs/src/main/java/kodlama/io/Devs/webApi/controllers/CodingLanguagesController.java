@@ -19,7 +19,7 @@ public class CodingLanguagesController {
         this.codingLanguageService = codingLanguageService;
     }
 
-    @RequestMapping("/getall")
+    @GetMapping("/getall")
     public List<GetAllCodingsLanguageResponse> getAll() {
         return codingLanguageService.getAll();
     }
@@ -35,12 +35,12 @@ public class CodingLanguagesController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public void update(@RequestBody CreateCodingLanguageRequest createCodingLanguageRequest,int id) throws Exception {
         codingLanguageService.update(createCodingLanguageRequest,id);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) throws Exception {
         codingLanguageService.delete(id);
     }
